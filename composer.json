@@ -1,0 +1,57 @@
+{
+    "name": "ephraitech/ci4-platform",
+    "description": "Modular-monolith platform for CodeIgniter 4: module manifests, one module gate for single-client and multi-tenant (SaaS) installs, tenancy, menus, settings, sequences, audit, search, dashboards, extension points, API base, role editor, generators and a cPanel deploy kit.",
+    "type": "library",
+    "keywords": [
+        "codeigniter",
+        "codeigniter4",
+        "modules",
+        "modular monolith",
+        "multi-tenant",
+        "saas",
+        "feature flags",
+        "rbac"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/etus-ephraitech/ci4-platform",
+    "authors": [
+        {
+            "name": "Ephraitech Unified Solutions",
+            "homepage": "https://github.com/etus-ephraitech"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/etus-ephraitech/ci4-platform/issues",
+        "source": "https://github.com/etus-ephraitech/ci4-platform"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "codeigniter4/framework": "^4.7",
+        "ephraitech/ci4-auth": "^0.12",
+        "ephraitech/ci4-forms": "^0.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ephraitech\\Platform\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ephraitech\\Platform\\Tests\\": "tests/",
+            "Ephraitech\\Platform\\Tests\\Support\\": "tests/_support/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
