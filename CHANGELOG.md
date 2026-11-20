@@ -6,6 +6,16 @@ follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-20
+
+### Fixed
+- The "workspace unavailable" page (suspended workspace, trial over) called
+  `auth()->loggedIn()`, which ci4-auth's `AuthManager` does not have, so
+  it ended in a server error. It now asks the session guard
+  (`auth()->session()->check()`), and a page request carrying a bearer
+  token no longer changes what it shows. Covered by
+  `tests/Feature/UnavailableWorkspaceTest.php`.
+
 ## [0.1.0] - 2026-11-15
 
 First release, extracted from Ephraitech OS's Core and Users modules.

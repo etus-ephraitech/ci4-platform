@@ -22,7 +22,8 @@ helper(['platform', 'url', 'form']);
 <?php endif ?>
 <p>If you think this is a mistake, contact whoever manages your account.</p>
 <div class="d-flex flex-wrap gap-2 mt-4">
-    <?php if (auth()->loggedIn()): ?>
+    <?php // A page, so the session decides who is signed in (not a bearer token). ?>
+    <?php if (auth()->session()->check()): ?>
         <?php if (service('tenancy')->isMulti()): ?>
             <a class="btn btn-primary" href="<?= url_to('core.workspaces') ?>">Your workspaces</a>
         <?php endif ?>
