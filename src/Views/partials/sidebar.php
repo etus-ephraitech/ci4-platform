@@ -8,7 +8,7 @@ $name   = platform_name();
 ?>
 <nav id="eos-sidebar" class="eos-sidebar" aria-label="Main">
     <div class="eos-brand">
-        <a href="<?= url_to('core.dashboard') ?>" class="eos-brand-link" aria-label="<?= esc($name, 'attr') ?> dashboard">
+        <a href="<?= url_to('core.dashboard') ?>" class="eos-brand-link" title="<?= esc($name, 'attr') ?>" aria-label="<?= esc($name, 'attr') ?> dashboard">
             <?php if (! empty($brand['logoOnDark'])): ?>
                 <img class="eos-brand-full" src="<?= brand_asset('logoOnDark') ?>" alt="" width="160" height="31">
             <?php else: ?>

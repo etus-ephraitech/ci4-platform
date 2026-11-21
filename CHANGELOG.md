@@ -6,6 +6,35 @@ follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-21
+
+Easier to use, the same look.
+
+### Added
+- `Config\Platform::$centralOnlyRoles`: roles given platform-wide only (the
+  platform owner's support staff). A workspace's Staff and Roles screens do
+  not offer, list or accept them.
+- A pager view, `Ephraitech\Platform\Views\pager\full` ("Showing 26–50 of
+  512", previous and next, the pages around this one, the first and last).
+  Use it as `default_full` in `app/Config/Pager.php`.
+- Required fields: the label of every required control gets a red star, and
+  a form with any says "Fields marked * are needed" above its buttons.
+- `<form data-eos-filters method="get">`: choosing from a list shows the
+  result straight away; on phones the filters fold behind a "Filters" button
+  that says how many are on, and the search box stays.
+- `.eos-mini-label` for the small labels above the fields of repeated rows;
+  `.eos-panel-keep` keeps a panel's frame on phones.
+
+### Changed
+- Phones: list rows as compact cards, the status beside the title and the
+  buttons together at the bottom; a panel holding such a list drops its own
+  frame; page numbers three to a row; smaller page title and buttons.
+- The clinic's name beside the collapse button no longer runs under it (and
+  shows in full on hover); menu group headings are smaller.
+
+### Fixed
+- Pagination: "Next" and "Last" had a box inside their box.
+
 ## [0.1.3] - 2026-11-21
 
 ### Added

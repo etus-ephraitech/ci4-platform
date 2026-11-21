@@ -9,6 +9,10 @@
  * @var bool                                 $inWorkspace
  */
 $excluded   = Ephraitech\Platform\Config\PlatformConfig::get()->staffExcludedRoles;
+// Platform-wide roles (support staff) are not a workspace's to give.
+$central    = $inWorkspace ? Ephraitech\Platform\Config\PlatformConfig::get()->centralOnlyRoles : [];
+$excluded   = [...$excluded, ...$central];
+$roles      = array_filter($roles, static fn (string $k): bool => ! in_array($k, $central, true), ARRAY_FILTER_USE_KEY);
 $staffRoles = array_filter($roles, static fn (array $r, string $k): bool => ! in_array($k, $excluded, true), ARRAY_FILTER_USE_BOTH);
 ?>
 <?= $this->extend('Ephraitech\Platform\Views\layouts\app') ?>

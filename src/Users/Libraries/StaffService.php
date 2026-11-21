@@ -515,8 +515,10 @@ class StaffService
         $super    = $this->config->superRole;
         $options  = [];
 
+        $central  = $this->inWorkspace() ? PlatformConfig::get()->centralOnlyRoles : [];
+
         foreach (RoleCatalog::all() as $name => $role) {
-            if (in_array($name, $excluded, true)) {
+            if (in_array($name, $excluded, true) || in_array($name, $central, true)) {
                 continue;
             }
 
@@ -553,6 +555,12 @@ class StaffService
 
         if ($excluded !== []) {
             throw new RuntimeException('The ' . implode(', ', $excluded) . ' role is not given from this screen.');
+        }
+
+        $central = $this->inWorkspace() ? array_intersect($requested, PlatformConfig::get()->centralOnlyRoles) : [];
+
+        if ($central !== []) {
+            throw new RuntimeException('The ' . implode(', ', $central) . ' role is given platform-wide, not in a workspace.');
         }
 
         if ($requested === []) {

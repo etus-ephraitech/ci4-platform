@@ -30,6 +30,26 @@
         return labels;
     }
 
+    // On a phone card the status sits beside the title and the buttons
+    // sit together at the bottom (platform.css).
+    var STATUS = /^(status|state)$/i;
+
+    function onlyControls(cell) {
+        if (!cell.querySelector('a.btn, button, .btn')) { return false; }
+        var copy = cell.cloneNode(true);
+        copy.querySelectorAll('a.btn, button, .btn, input, select, form > [type=hidden], .visually-hidden').forEach(function (el) { el.remove(); });
+
+        return copy.textContent.replace(/\s+/g, '') === '';
+    }
+
+    function markRole(cell, label) {
+        if (STATUS.test(label.trim()) && cell.querySelector('.eos-pill, .badge')) {
+            cell.classList.add('eos-cell-status');
+        } else if (onlyControls(cell)) {
+            cell.classList.add('eos-cell-actions');
+        }
+    }
+
     function labelRow(row, labels) {
         var index = 0;
         Array.prototype.forEach.call(row.cells, function (cell) {
@@ -41,6 +61,10 @@
                 cell.setAttribute('data-label', '');
             } else if (!cell.hasAttribute('data-label-fixed')) {
                 cell.setAttribute('data-label', labels[index] || '');
+            }
+
+            if (!cell.classList.contains('eos-cell-full') && index > 0) {
+                markRole(cell, labels[index] || '');
             }
 
             index += span;

@@ -505,3 +505,18 @@ JS object, route names, view sections), so most module code moves as is.
 | `Dashboards::ALL`, `ROLE_BOARDS`, the department board | `boards` in manifests; the department board as a `landing` provider in People |
 | the `client` → Portal redirect | a `platform.page` listener in Portal's `Config/Events.php`, plus `$staffExcludedRoles = ['client']` |
 | Signatures, StaffDirectory, DocumentLines, line items | stay in Ephraitech OS (business features), e.g. in a `Documents` module |
+
+
+## Making pages easy to use (0.1.4)
+
+- Mark required controls `required` (forms can stay `novalidate`): their
+  labels get a red star.
+- Give list filters `data-eos-filters` on the `<form method="get">`. Put the
+  search box first and the submit button in its own cell.
+- In a list's table, call the status column "Status" and put buttons alone in
+  the last cell: on phones the status sits by the title and the buttons along
+  the bottom.
+- Repeated rows of fields (lines of an invoice, medicines): give each field a
+  visible `<label class="eos-mini-label">`, not only a placeholder.
+- Roles only the platform owner gives (support staff): list them in
+  `$centralOnlyRoles`.

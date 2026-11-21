@@ -848,3 +848,84 @@ details summary { cursor: pointer; color: var(--eos-navy); font-weight: 500; }
 .eos-workspaces li.is-current { border-color: var(--eos-navy); box-shadow: 0 0 0 1px var(--eos-navy) inset; }
 .eos-workspaces strong { display: block; }
 .eos-workspaces small { color: var(--eos-muted); }
+
+/* ------------------------------------------------------------------ */
+/* Easier to use (0.1.4): the clinic name fits beside the collapse button,
+   a shorter menu, required fields marked, filters folded away on phones,
+   compact numbers and table cards on phones, pages of a list. */
+
+.eos-brand-link { flex: 1 1 auto; overflow: hidden; }
+.eos-brand-name { min-width: 0; max-width: 100%; }
+.eos-brand-name span { max-width: none; min-width: 0; }
+
+.eos-nav-group { margin: .9rem .65rem .25rem; font-size: .72rem; letter-spacing: .02em; text-transform: uppercase; }
+.eos-nav ul { margin-bottom: .25rem; }
+.eos-nav-link { padding: .48rem .75rem; }
+
+/* Required fields (platform.js marks the labels of required controls). */
+.eos-required::after { content: " *"; color: #b42318; font-weight: 600; }
+.eos-required-note { font-size: .8rem; color: var(--eos-muted); margin: 0 0 1rem; }
+.eos-required-note span { color: #b42318; font-weight: 600; }
+
+/* Small labels above the fields of repeated rows (medicines, lines). */
+.eos-mini-label { display: block; margin: 0 0 .15rem; font-size: .74rem; font-weight: 600; color: var(--eos-muted); }
+
+/* Pages of a list. */
+.pagination li a span, .pagination li span span { display: inline; padding: 0; border: 0; background: none; }
+.pagination li a, .pagination li > span { min-width: 2.25rem; text-align: center; }
+.pagination li a:hover { background: #eef1f7; }
+.pagination li.disabled > span { color: var(--eos-muted); background: transparent; }
+.eos-pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; }
+.eos-pager-info { font-size: .85rem; color: var(--eos-muted); }
+
+/* Filters: the toggle only shows on phones (platform.js adds it). */
+.eos-filter-toggle-wrap { display: none; }
+
+@media (max-width: 767.98px) {
+    .eos-main { padding: 1rem .85rem 2.25rem; }
+    .eos-heading h1 { font-size: 1.3rem; }
+
+    /* Buttons beside the page title: smaller, in a row that wraps. */
+    .eos-actions { gap: .4rem !important; }
+    .eos-actions .btn { padding: .35rem .7rem; font-size: .88rem; }
+
+    /* Numbers at the top of a page: three to a row. */
+    .eos-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem; margin-bottom: 1rem; }
+    .eos-stats > div { padding: .5rem .6rem; border-radius: 10px; }
+    .eos-stats dt { font-size: .7rem; line-height: 1.25; }
+    .eos-stats dd { font-size: 1.05rem; }
+    .eos-stats dd small { font-size: .7rem; }
+
+    /* Filters folded behind one button; the search box stays. */
+    .eos-filter-toggle-wrap { display: block; }
+    /* The search box searches with the keyboard's Search key. */
+    form.eos-filterable:not(.is-open) > .eos-filter-extra,
+    form.eos-filterable:not(.is-open) > .eos-filter-submit { display: none; }
+
+    .eos-panel { padding: 1rem; }
+
+    /* A panel holding a table shown as cards: the cards are enough of a
+       frame, so the panel drops its own (.eos-panel-keep keeps it). */
+    .eos-panel:not(.eos-panel-keep):has(.eos-table-stack) { padding: 0; background: transparent; border: 0; box-shadow: none; }
+    .eos-panel:not(.eos-panel-keep):has(.eos-table-stack) > .eos-panel-head,
+    .eos-panel:not(.eos-panel-keep):has(.eos-table-stack) > .eos-section-title { margin: 0 .15rem .6rem; }
+
+    /* Table rows as cards: title and status on one line, then the rest
+       as short "label value" lines, buttons together at the bottom. */
+    .eos-table-stack > tbody > tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: .75rem; padding: .55rem .85rem .35rem; margin-bottom: .55rem; }
+    .eos-table-stack > tbody > tr > * { grid-column: 1 / -1; min-height: 0; padding: .28rem 0 .28rem calc(34% + .6rem); border-bottom: 0; font-size: .9rem; }
+    .eos-table-stack > tbody > tr > *::before { top: .32rem; width: 34%; font-size: .72rem; }
+    .eos-table-stack > tbody > tr > *:first-child:not(.eos-cell-full) { grid-column: 1; padding: .15rem 0 .35rem; }
+    .eos-table-stack > tbody > tr > .eos-cell-status { grid-column: 2; grid-row: 1; align-self: start; padding: .2rem 0 0; text-align: right !important; }
+    .eos-table-stack > tbody > tr > .eos-cell-status::before { content: none; display: none; }
+    .eos-table-stack > tbody > tr > .eos-cell-actions { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; padding: .55rem 0 .25rem; margin-top: .25rem; border-top: 1px solid var(--eos-line); }
+    .eos-table-stack > tbody > tr > .eos-cell-actions::before { content: none; display: none; }
+    .eos-table-stack > tbody > tr > .eos-cell-actions form { margin: 0; }
+    .eos-table-stack > tbody > tr > .eos-cell-actions .btn { margin: 0 !important; }
+    .eos-table-stack > tbody > tr > .eos-cell-full { grid-column: 1 / -1; }
+
+    /* Dashboard cards: smaller figures. */
+    .eos-figure { font-size: 1.35rem; margin-bottom: .5rem; }
+
+    .eos-pager { justify-content: center; }
+}

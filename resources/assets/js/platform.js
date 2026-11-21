@@ -267,4 +267,110 @@
             proceed();
         }
     });
+    // Required fields -------------------------------------------------------
+    // The label of every required control gets a red star; a form with any
+    // says so once above its buttons.
+    function markRequired(root) {
+        (root || document).querySelectorAll('.eos-main form').forEach(function (form) {
+            var marked = 0;
+            form.querySelectorAll('input[required], select[required], textarea[required]').forEach(function (control) {
+                if (!control.id || control.type === 'hidden') { return; }
+                var label = form.querySelector('label[for="' + (window.CSS && CSS.escape ? CSS.escape(control.id) : control.id) + '"]');
+                if (!label || label.classList.contains('visually-hidden') || label.classList.contains('form-check-label')) { return; }
+                label.classList.add('eos-required');
+                marked++;
+            });
+            if (marked > 0 && form.method.toLowerCase() === 'post' && !form.querySelector('.eos-required-note')) {
+                var submit = form.querySelector('button[type=submit], button:not([type])');
+                if (submit) {
+                    var note = document.createElement('p');
+                    note.className = 'eos-required-note';
+                    note.innerHTML = 'Fields marked <span>*</span> are needed.';
+                    var holder = submit.parentElement === form ? submit : submit.closest('form > *') || submit;
+                    holder.parentNode.insertBefore(note, holder);
+                }
+            }
+        });
+    }
+
+    // Filters ---------------------------------------------------------------
+    // <form data-eos-filters method="get">: on phones the fields fold behind
+    // a "Filters" button (the search box stays), and choosing from a list
+    // shows the result straight away.
+    function setupFilters(form) {
+        if (form.dataset.eosFiltersReady === '1') { return; }
+        form.dataset.eosFiltersReady = '1';
+
+        var cells = Array.prototype.filter.call(form.children, function (el) { return el.tagName !== 'INPUT'; });
+        var submitCell = null;
+        var primary = null;
+        var extra = [];
+
+        cells.forEach(function (el) {
+            if (el.querySelector('button[type=submit], button:not([type])') && !el.querySelector('input, select, textarea')) {
+                submitCell = el;
+            } else if (!primary && el.querySelector('input[type=search], input[type=text], input:not([type])')) {
+                primary = el;
+            } else if (el.querySelector('input, select, textarea')) {
+                extra.push(el);
+            }
+        });
+
+        if (submitCell) {
+            submitCell.classList.add('eos-filter-submit');
+            // Lists alone need no button: choosing shows the result.
+            if (!primary && !form.querySelector('input:not([type=hidden])')) { submitCell.hidden = true; }
+        }
+
+        // Choosing from a list shows the result straight away.
+        form.querySelectorAll('select').forEach(function (select) {
+            select.addEventListener('change', function () {
+                if (form.requestSubmit) { form.requestSubmit(); } else { form.submit(); }
+            });
+        });
+
+        // Fold only when it saves room: a search box and more, or two or
+        // more other fields.
+        if (extra.length === 0 || (!primary && extra.length < 2)) { return; }
+
+        var active = extra.filter(function (el) {
+            var control = el.querySelector('select, input:not([type=hidden]), textarea');
+            if (!control) { return false; }
+            if (control.tagName === 'SELECT') { return control.selectedIndex > 0; }
+            if (control.type === 'checkbox' || control.type === 'radio') { return control.checked; }
+            return control.value !== '';
+        }).length;
+
+        form.classList.add('eos-filterable');
+        if (!primary) { form.classList.add('no-primary'); }
+        extra.forEach(function (el) { el.classList.add('eos-filter-extra'); });
+
+        var wrap = document.createElement('div');
+        wrap.className = 'col-12 eos-filter-toggle-wrap';
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-outline-secondary btn-sm';
+        button.setAttribute('aria-expanded', 'false');
+        button.innerHTML = '<i class="bi bi-funnel me-1" aria-hidden="true"></i>Filters' + (active > 0 ? ' <span class="eos-pill eos-pill-primary ms-1">' + active + ' on</span>' : '');
+        button.addEventListener('click', function () {
+            var open = !form.classList.contains('is-open');
+            form.classList.toggle('is-open', open);
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        wrap.appendChild(button);
+        form.insertBefore(wrap, primary ? primary.nextSibling : form.firstChild);
+    }
+
+    function ready() {
+        markRequired(document);
+        document.querySelectorAll('form[data-eos-filters]').forEach(setupFilters);
+    }
+
+    window.EOS.markRequired = markRequired;
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ready);
+    } else {
+        ready();
+    }
 })();

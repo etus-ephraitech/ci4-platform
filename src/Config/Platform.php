@@ -95,6 +95,15 @@ class Platform extends BaseConfig
     public array $staffExcludedRoles = [];
 
     /**
+     * Roles given platform-wide only (with no workspace selected), e.g. the
+     * platform owner's support staff: they are not offered, listed or
+     * accepted on a workspace's Staff and Roles screens.
+     *
+     * @var list<string>
+     */
+    public array $centralOnlyRoles = [];
+
+    /**
      * Board a person lands on when nothing else applies (see Dashboards).
      */
     public string $defaultBoard = 'home';
