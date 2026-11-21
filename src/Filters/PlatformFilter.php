@@ -154,8 +154,13 @@ final class PlatformFilter implements FilterInterface
             $picker = url_to('core.workspaces');
 
             if ($url !== $picker) {
-                // The workspace has its own address (subdomain or domain).
-                return redirect()->to($url);
+                // The workspace has its own address (subdomain or domain):
+                // the same page there, so links made on the platform's host
+                // (in emails, say) still open what they point to.
+                $query = $request->getUri()->getQuery();
+                $page  = strtolower($request->getMethod()) === 'get' ? trim($request->getPath(), '/') . ($query !== '' ? '?' . $query : '') : '';
+
+                return redirect()->to($tenancy->urlFor($usable[0], $page));
             }
 
             session()->set(PlatformConfig::get()->tenantSessionKey, $usable[0]['slug']);

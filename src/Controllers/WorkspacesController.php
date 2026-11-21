@@ -62,6 +62,7 @@ class WorkspacesController extends BaseModuleController
     {
         session()->remove(PlatformConfig::get()->tenantSessionKey);
 
-        return redirect()->route('core.workspaces');
+        // On a workspace's subdomain the picker is on the platform's host.
+        return redirect()->to(service('tenancy')->centralUrl('core.workspaces'));
     }
 }

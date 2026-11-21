@@ -205,6 +205,14 @@ or Administration → Workspaces (platform owner, no workspace selected).
 | `header` | `X-Tenant-ID: acme` (`Config\Auth::$tenantHeader`) | for API clients. A token bound to a tenant implies it; a header naming another tenant gets 403. |
 | `session` | the workspace picked at `/workspaces` | one shared domain. People in exactly one workspace are taken into it. |
 
+With subdomains, people in exactly one workspace who sign in on the
+platform's host are sent to the same page on its subdomain. Build links to a
+workspace with `service('tenancy')->urlFor($tenant, 'path')` (it keeps a port
+in `app.baseURL`, as with `php spark serve` on :8080 in development), and
+links to pages that only work outside a workspace (the picker, a desk) with
+`service('tenancy')->centralUrl('route.name')`, which is on the platform's
+host whatever host the request came in on.
+
 Then the platform filter:
 
 - refuses unknown tenants (404), suspended, cancelled or expired-trial ones (a page saying so / 403 JSON);

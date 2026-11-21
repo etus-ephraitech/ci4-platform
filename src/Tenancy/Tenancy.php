@@ -212,12 +212,38 @@ final class Tenancy
             }
 
             if ($config->baseDomain !== '') {
-                return $scheme . '://' . $tenant['slug'] . '.' . $config->baseDomain . '/' . $path;
+                // Keep a port in app.baseURL (e.g. php spark serve on
+                // :8080 in development), so links stay on the same server.
+                $port = parse_url((string) config('App')->baseURL, PHP_URL_PORT);
+
+                return $scheme . '://' . $tenant['slug'] . '.' . $config->baseDomain . (is_int($port) ? ':' . $port : '') . '/' . $path;
             }
         }
 
         // One domain for everyone: the workspace is picked on /workspaces.
         return url_to('core.workspaces');
+    }
+
+    /**
+     * A named route on the platform's own host (app.baseURL), whatever host
+     * the request came in on. Pages that only work outside a workspace
+     * (the picker, a support desk) are linked and redirected to with it,
+     * so that from acme.app.example.com they do not land back on the
+     * workspace's subdomain.
+     */
+    public function centralUrl(string $route, int|string ...$params): string
+    {
+        $url  = (string) url_to($route, ...$params);
+        $base = parse_url((string) config('App')->baseURL);
+
+        if (! is_array($base) || empty($base['host'])) {
+            return $url;
+        }
+
+        $query = parse_url($url, PHP_URL_QUERY);
+
+        return ($base['scheme'] ?? 'https') . '://' . $base['host'] . (isset($base['port']) ? ':' . $base['port'] : '')
+            . (string) parse_url($url, PHP_URL_PATH) . (is_string($query) && $query !== '' ? '?' . $query : '');
     }
 
     /**

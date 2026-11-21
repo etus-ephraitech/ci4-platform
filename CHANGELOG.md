@@ -6,6 +6,21 @@ follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-21
+
+### Added
+- `Tenancy::centralUrl($route, ...$params)`: a named route on the
+  platform's own host (`app.baseURL`), whatever host the request came in on.
+
+### Fixed
+- Subdomain addresses (`Tenancy::urlFor()`) keep the port of `app.baseURL`,
+  so development on `php spark serve` (:8080) stays on the same server.
+- Someone in one workspace who opens a page on the platform's host is sent
+  to that page on the workspace's subdomain (it was always its home page),
+  so links in emails open what they point to.
+- Leaving a workspace on its subdomain goes to the picker on the platform's
+  host.
+
 ## [0.1.2] - 2026-11-21
 
 ### Added
