@@ -5,6 +5,10 @@
  * Sections a page may fill: content (required), actions (buttons beside
  * the page title), styles (extra <head> tags), scripts (extra scripts).
  *
+ * Extension point 'layout.banners': notices above every page's flash
+ * messages (maintenance, someone working in the workspace on support).
+ * Contributions check who they are for themselves.
+ *
  * @var CodeIgniter\View\View $this
  * @var string                $pageTitle
  * @var list<array>           $breadcrumbs
@@ -141,6 +145,7 @@ $workspace     = $tenancy->current();
             <div class="eos-actions"><?= $this->renderSection('actions') ?></div>
         </div>
 
+        <?= slot('layout.banners') ?>
         <?= $this->include('Ephraitech\Platform\Views\partials\flash') ?>
         <?= $this->renderSection('content') ?>
     </main>

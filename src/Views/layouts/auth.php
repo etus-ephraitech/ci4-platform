@@ -7,6 +7,9 @@
  * In a multi-tenant install the workspace's name is shown when the
  * sign-in page is opened on a workspace's own address.
  *
+ * Extension point 'layout.auth.banners': notices above the form (for
+ * example that the system is down for maintenance). Nobody is signed in.
+ *
  * Wide screens: brand panel on the left, form on the right.
  * Tablets: a narrower brand panel. Phones: a navy brand bar above the form.
  *
@@ -64,6 +67,7 @@ $phone   = trim((string) setting('company.phone', ''));
         </header>
 
         <div class="eos-auth-card">
+            <?= slot('layout.auth.banners') ?>
             <?= $this->renderSection($section) ?>
         </div>
 

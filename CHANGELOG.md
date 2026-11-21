@@ -6,6 +6,14 @@ follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-21
+
+### Added
+- Extension points `layout.banners` (signed-in pages, above the flash
+  messages) and `layout.auth.banners` (sign-in pages, above the form), for
+  notices a module shows on every page. Covered by
+  `tests/Feature/LayoutBannersTest.php`.
+
 ## [0.1.1] - 2026-11-20
 
 ### Fixed

@@ -318,6 +318,15 @@ return $this->respondData($client + ['related' => extension_data('crm.client.api
 Contributions from switched-off modules and those the person may not see are
 left out. A contribution that throws is logged and skipped.
 
+The layouts have two points of their own, for notices on every page:
+
+| Point | Where |
+|---|---|
+| `layout.banners` | Signed-in pages, above the flash messages (maintenance, someone working in the workspace on support) |
+| `layout.auth.banners` | Sign-in and password pages, above the form (nobody is signed in) |
+
+A banner cell decides for itself whom it is for, and returns `''` otherwise.
+
 ## The API
 
 API controllers extend `Ephraitech\Platform\Controllers\Api\BaseApiController`:

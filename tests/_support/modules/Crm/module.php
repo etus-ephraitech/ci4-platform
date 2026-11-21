@@ -15,6 +15,8 @@ return [
         'branding' => ['title' => 'Branding', 'scope' => 'global', 'fields' => ['footer' => ['default' => 'Made with care']]],
     ],
     'extends'     => [
-        'crm.client.api' => [['call' => 'Modules\Crm\Models\ClientModel::countFor', 'key' => 'count']],
+        'crm.client.api'      => [['call' => 'Modules\Crm\Models\ClientModel::countFor', 'key' => 'count']],
+        'layout.banners'      => [['cell' => 'Modules\Crm\Cells\Banner::app']],
+        'layout.auth.banners' => [['cell' => 'Modules\Crm\Cells\Banner::auth']],
     ],
 ];
